@@ -32,7 +32,7 @@
             <div class="mt-5 text-center">
                 <h4>Prediction: {{ prediction }}</h4>
                 <h5>Label: {{ label }}</h5>
-                <img src="{{ url_for('uploaded_file', filename=filename) }}" alt="Uploaded Image" class="img-thumbnail mt-3" width="250">
+                <img src="{{ url_for('main.uploaded_file', filename=filename) }}" alt="Uploaded Image" class="img-thumbnail mt-3" width="250">
             </div>
         {% endif %}
     </div>
