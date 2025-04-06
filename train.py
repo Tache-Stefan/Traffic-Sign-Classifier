@@ -2,7 +2,7 @@ import torch
 from torch.utils.data import DataLoader
 from dataset import TrafficSignDataset
 import model
-import config
+from app.utils import config
 
 
 def train_model():

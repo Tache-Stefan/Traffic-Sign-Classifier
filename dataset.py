@@ -1,7 +1,7 @@
 import os
 from PIL import Image
 from torch.utils.data import Dataset
-import config
+from app.utils import config
 
 
 class TrafficSignDataset(Dataset):

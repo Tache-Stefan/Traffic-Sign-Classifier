@@ -1,6 +1,7 @@
 import torch.nn as nn
 import torch.optim as optim
-import config
+from app.utils import config
+
 
 class TrafficSignCNN(nn.Module):
     def __init__(self, num_classes = config.NUM_CLASSES):

@@ -1,7 +1,7 @@
 import torch
 import torchvision.transforms as transforms
 
-DATASET_PATH = "resources/GTSRB/Final_Training/Images"
+DATASET_PATH = "../../resources/GTSRB/Final_Training/Images"
 
 IMG_SIZE = 32
 BATCH_SIZE = 32
