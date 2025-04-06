@@ -11,6 +11,7 @@
             <a class="navbar-brand" href="{{ url_for('main.index') }}">Traffic Sign Classifier</a>
             <div class="ms-auto">
                 {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('main.profile', username=current_user.username) }}" class="btn btn-outline-secondary me-2">Profile</a>
                     <a href="{{ url_for('auth.logout') }}" class="btn btn-outline-danger">Sign Out</a>
                 {% else %}
                     <a href="{{ url_for('auth.register') }}" class="btn btn-outline-success me-2">Register</a>
@@ -34,6 +35,16 @@
                 <h5>Label: {{ label }}</h5>
                 <img src="{{ url_for('main.uploaded_file', filename=filename) }}" alt="Uploaded Image" class="img-thumbnail mt-3" width="250">
             </div>
+        {% endif %}
+        {% if current_user.is_authenticated and filename %}
+            <form method="post" action="{{ url_for('main.feedback') }}">
+                <input type="hidden" name="label" value="{{ prediction }}">
+                <input type="hidden" name="filename" value="{{ filename }}">
+                <div class="d-flex justify-content-center mt-3">
+                    <button name="feedback" value="correct" class="btn btn-success mt-3 me-2">Correct</button>
+                    <button name="feedback" value="incorrect" class="btn btn-danger mt-3">Incorrect</button>
+                </div>
+            </form>
         {% endif %}
     </div>
 

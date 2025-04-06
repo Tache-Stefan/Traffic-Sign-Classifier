@@ -4,6 +4,7 @@ from flask_login import LoginManager
 from app.models.user import db, User
 from app.controllers.auth_controller import auth_bp
 from app.controllers.main_controller import main_bp
+from datetime import timedelta
 
 
 def create_app():
@@ -15,6 +16,8 @@ def create_app():
     UPLOAD_FOLDER = "static/uploads"
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
     app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+
+    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
 
     db.init_app(app)
 

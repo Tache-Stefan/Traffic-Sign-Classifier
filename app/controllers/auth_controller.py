@@ -3,6 +3,7 @@ from flask_login import login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.models.user import User, db
 
+
 auth_bp = Blueprint('auth', __name__)
 
 
@@ -23,6 +24,7 @@ def login():
 
 @auth_bp.route("/logout")
 def logout():
+    session.pop('_flashes', None)
     logout_user()
     return redirect(url_for("main.index"))
 
@@ -47,6 +49,5 @@ def register():
         user = User(username=username, password=hashed_password)
         db.session.add(user)
         db.session.commit()
-        flash("Account created!", "success")
         return redirect(url_for("auth.login"))
     return render_template("register.html")
