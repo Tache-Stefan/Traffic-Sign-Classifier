@@ -1,7 +1,7 @@
-from flask import Flask, request, render_template, send_from_directory, redirect, url_for, flash
+from flask import Flask, request, render_template, send_from_directory, redirect, url_for, flash, session
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, UserMixin, login_user
+from flask_login import LoginManager, UserMixin, login_user, logout_user
 import os
 from dotenv import load_dotenv
 from config import GTSRB_labels
@@ -37,6 +37,7 @@ def load_user(user_id):
 
 
 @app.route("/", methods=["GET", "POST"])
+@app.route("/home", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
         if "file" not in request.files:
@@ -59,6 +60,7 @@ def index():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    session.pop('_flashes', None)
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
@@ -81,6 +83,7 @@ def register():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    session.pop('_flashes', None)
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
@@ -94,6 +97,12 @@ def login():
         flash("Login failed. Check email and password.", "danger")
 
     return render_template("login.html")
+
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for("index"))
 
 
 @app.route("/uploads/<filename>")
