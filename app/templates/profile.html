@@ -9,6 +9,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
         <div class="container">
             <a class="navbar-brand" href="{{ url_for('main.index') }}">Traffic Sign Classifier</a>
+            <a href="{{ url_for('main.about') }}" class="btn btn-outline-info ms-3">About</a>
             <div class="ms-auto">
                 {% if current_user.is_authenticated %}
                     <a href="{{ url_for('main.profile', username=current_user.username) }}" class="btn btn-outline-secondary me-2">Profile</a>

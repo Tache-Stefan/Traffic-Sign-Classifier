@@ -1,6 +1,7 @@
 import torch.nn as nn
 import torch.optim as optim
 from app.utils import config
+from torchvision.models import resnet18, ResNet18_Weights
 
 
 class TrafficSignCNN(nn.Module):
@@ -29,9 +30,32 @@ class TrafficSignCNN(nn.Module):
         return x
 
 
-def get_model():
-    model = TrafficSignCNN()
-    return model
+def get_model(model_name='CNN'):
+    num_classes = 43
+
+    if model_name == 'ResNet18':
+        model = resnet18(weights=ResNet18_Weights.DEFAULT)
+
+        for param in model.parameters():
+            param.requires_grad = False
+        for name, param in model.named_parameters():
+            if "layer4" in name or "fc" in name:
+                param.requires_grad = True
+
+        model.fc = nn.Sequential(
+            nn.Linear(model.fc.in_features, 256),
+            nn.ReLU(),
+            nn.Dropout(0.3),
+            nn.Linear(256, num_classes)
+        )
+
+        return model.to(config.device)
+
+    elif model_name == 'CNN':
+        model = TrafficSignCNN()
+        return model.to(config.device)
+
+    raise ValueError("Unsupported model: {}".format(model_name))
 
 
 def get_optimizer(model):

@@ -8,12 +8,12 @@ from datetime import timedelta
 
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder='static')
 
     app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
     app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
-    UPLOAD_FOLDER = "static/uploads"
+    UPLOAD_FOLDER = os.path.join(app.root_path, 'static', 'uploads')
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
     app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 

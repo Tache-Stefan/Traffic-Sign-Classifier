@@ -51,19 +51,20 @@ def train_model():
 
     print(f"Test Accuracy: {100 * correct / total:.2f}%")
 
-    torch.save(net.state_dict(), "model.pth")
+    torch.save(net.state_dict(), "app/classifiers/CNN.pth")
 
 
-def load_model(model_path='model.pth'):
-    net = model.get_model().to(config.device)
+def load_model(model_name='CNN'):
+    model_path = f"app/classifiers/{model_name}.pth"
+    net = model.get_model(model_name).to(config.device)
     net.load_state_dict(torch.load(model_path))
     net.eval()
     return net
 
 
-def predict_image(image_path):
+def predict_image(image_path, model_name='CNN'):
     from PIL import Image
-    net = load_model()
+    net = load_model(model_name)
 
     image = Image.open(image_path).convert("RGB")
     image = config.transform(image).unsqueeze(0).to(config.device)
